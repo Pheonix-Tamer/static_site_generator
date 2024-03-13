@@ -30,10 +30,10 @@ class TextNode:
     
     
     def __repr__(self) -> str:
-        return f"TextNode({self.text}, {self.text_type}, {self.url})"
+        return f"TextNode('{self.text}', {self.text_type}, '{self.url}')"
 
 
-def text_mode_to_html_node(text_node: TextNode):
+def text_node_to_html_node(text_node: TextNode):
     if text_node.text_type == text_type_text:
         return LeafNode(None, text_node.text)
     if text_node.text_type == text_type_bold:
@@ -47,10 +47,4 @@ def text_mode_to_html_node(text_node: TextNode):
     if text_node.text_type == text_type_image:
         return LeafNode("img", "", {"src": text_node.url, "alt": text_node.text})
     raise Exception("Not an accepted text type")
-
-
-def split_nodes_delimiter(old_nodes: list, delimiter: str, text_type):
-    for node in old_nodes:
-        text_list = node.text.split(delimiter)
-        
-        
+            

@@ -1,6 +1,6 @@
 import unittest
 
-from textnode import TextNode, text_mode_to_html_node
+from textnode import TextNode, text_node_to_html_node
 
 
 class TestTextNode(unittest.TestCase):
@@ -31,7 +31,7 @@ class TestTextNode(unittest.TestCase):
     def test_repr(self):
         node = TextNode("This is a text node", "bold", "https://google.com")
         self.assertEqual(
-            "TextNode(This is a text node, bold, https://google.com)", repr(node)
+            "TextNode('This is a text node', bold, 'https://google.com')", repr(node)
         )
         
 
