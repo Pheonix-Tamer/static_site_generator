@@ -22,6 +22,16 @@ class TestMarkdownParse(unittest.TestCase):
         )
 
 
+    def test_text_not_parsed_with_broken_markdown(self):
+        node = TextNode("This is *broken markdown", text_type_text)
+        # self.assertRaises(
+        #     ValueError("Not proper markdown"),
+        #     new_nodes = split_nodes_delimiter([node], "*", text_type_italic)
+        # )
+        with self.assertRaises(ValueError):
+            new_nodes = split_nodes_delimiter([node], "*", text_type_italic)
+
+
     def test_image_parse(self):
         node = TextNode("This is a test for images ![test](image.link/) with multi images ![image](gooogle.com)", text_type_text)
         image_nodes = extract_markdown_images(node.text)
@@ -95,6 +105,37 @@ class TestMarkdownParse(unittest.TestCase):
                 TextNode(" inside it", text_type_text)
             ],
             split_nodes
+        )
+
+    
+    def test_image_node_split_with_only_image(self):
+        node = TextNode("![image](only.the.link)", text_type_text)
+        split_nodes = split_nodes_image([node])
+        self.assertListEqual(
+            [
+                TextNode("image", text_type_image, "only.the.link")
+            ],
+            split_nodes
+        )
+
+
+    def test_markdown_parse(self):
+        node = "This is **text** with an *italic* word and a `code block` and an ![image](image.url) and a [link](link.url.com)"
+        nodes = text_to_textnodes(node)
+        self.assertListEqual(
+            [
+                TextNode("This is ", text_type_text),
+                TextNode("text", text_type_bold),
+                TextNode(" with an ", text_type_text),
+                TextNode("italic", text_type_italic),
+                TextNode(" word and a ", text_type_text),
+                TextNode("code block", text_type_code),
+                TextNode(" and an ", text_type_text),
+                TextNode("image", text_type_image, "image.url"),
+                TextNode(" and a ", text_type_text),
+                TextNode("link", text_type_link, "link.url.com"),
+            ],
+            nodes
         )
         
         
