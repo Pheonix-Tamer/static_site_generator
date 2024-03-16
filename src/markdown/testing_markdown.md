@@ -2,7 +2,7 @@
 
 In which multiple **different** blocks are *here*
 
-```With Code blocs and all```
+```With Code blocks and all```
 
 * Lists
 * Galore
