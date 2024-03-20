@@ -71,13 +71,22 @@ class TestMarkdownParse(unittest.TestCase):
     
 
     def test_link_split_into_nodes(self):
-        node = TextNode("This text has an link in it [link](link.url) With text on both sides", text_type_text)
+        node = TextNode("This text has an link in it [link](/) With text on both sides", text_type_text)
         split_nodes = split_nodes_link([node])
         self.assertListEqual(
             [
                 TextNode("This text has an link in it ", text_type_text), 
-                TextNode("link", text_type_link, "link.url"), 
+                TextNode("link", text_type_link, "/"), 
                 TextNode(" With text on both sides", text_type_text)],
+            split_nodes
+        )
+
+
+    def test_link_with_no_other_text(self):
+        node = TextNode("[link](with.Nothing)", text_type_text)
+        split_nodes = split_nodes_link([node])
+        self.assertListEqual(
+            [TextNode("link", text_type_link, "with.Nothing")],
             split_nodes
         )
 
